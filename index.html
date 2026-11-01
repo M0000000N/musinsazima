@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5f0">
+  <title>무신사지마 · 내 조건으로 챙기는 체험단</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="무신사지마 홈"><span class="brand-mark">mz.</span><span>무신사지마<small>내 조건으로 챙기는 체험단</small></span></a>
+    <div class="header-meta"><span id="app-version">버전 0.4.0</span><span id="extension-state" class="connection-pill"><span class="dot"></span><span id="extension-state-text">연결 확인 중</span></span></div>
+  </header>
+  <div id="error-banner" class="error-banner" role="alert" hidden></div>
+  <main id="setup-layout" class="setup-layout">
+    <aside class="setup-intro">
+      <span class="eyebrow">처음 한 번만 준비해 주세요</span><h1>내 브라우저에서,<br>가볍게 시작해요.</h1>
+      <p>평소 사용하는 무신사 계정을 연결하고<br>나에게 맞는 신청 조건을 정해 주세요.</p>
+      <ol class="setup-progress" aria-label="시작 준비 단계">
+        <li data-progress="install"><span>01</span><div><strong>확장 프로그램 연결</strong><small>이 브라우저에서 신청 준비</small></div></li>
+        <li data-progress="connect"><span>02</span><div><strong>무신사 계정 확인</strong><small>평소 로그인한 계정 사용</small></div></li>
+        <li data-progress="consent"><span>03</span><div><strong>필수 이용 동의</strong><small>신청에 필요한 정책 확인</small></div></li>
+        <li data-progress="preferences"><span>04</span><div><strong>사이즈·배송 설정</strong><small>내 조건으로 자동 신청 시작</small></div></li>
+      </ol>
+      <p class="local-note">신청은 내 컴퓨터의 브라우저에서 진행됩니다.</p>
+    </aside>
+    <section class="setup-card card" aria-labelledby="setup-title">
+      <p id="setup-step-label" class="eyebrow">연결 확인 중</p>
+      <h2 id="setup-title" tabindex="-1">시작 준비를 확인하고 있습니다.</h2>
+      <p id="setup-description" class="description">잠시만 기다려 주세요.</p>
+      <section id="install-screen" class="setup-screen" hidden>
+        <div class="install-visual" aria-hidden="true"><span class="brand-mark">mz.</span><span>+</span><span class="browser-symbol">▣</span></div>
+        <p id="browser-help" class="notice">컴퓨터의 Chrome 또는 Edge에서 사용할 수 있습니다.</p>
+        <a id="extension-download" class="button primary full" href="./Musinsazima-Extension-0.4.0.zip" download>확장 프로그램 다운로드 <span aria-hidden="true">↓</span></a>
+        <ol class="install-steps">
+          <li><span>1</span><div><strong>다운로드한 압축 파일을 풀어 주세요.</strong><p>풀린 폴더는 설치 후에도 그대로 보관해 주세요.</p></div></li>
+          <li><span>2</span><div><strong>확장 프로그램 관리 화면을 열어 주세요.</strong><div class="browser-address"><code id="extensions-address">chrome://extensions</code><button id="copy-extensions-address" class="text-button" type="button">주소 복사</button></div><p>복사한 주소를 브라우저 주소창에 붙여 넣으세요.</p></div></li>
+          <li><span>3</span><div><strong>개발자 모드를 켜고 폴더를 선택해 주세요.</strong><p>‘압축해제된 확장 프로그램을 로드합니다’를 눌러 압축을 푼 폴더를 선택하세요. Edge에서는 ‘압축 풀린 파일 로드’를 누르면 됩니다.</p></div></li>
+        </ol>
+        <p class="field-help">현재는 테스트 배포로, 위 방법으로 한 번 설치하면 됩니다.</p>
+        <button id="detect-extension" class="button secondary full" type="button">설치했어요 · 연결 확인</button>
+      </section>
+      <section id="connect-screen" class="setup-screen" hidden>
+        <div class="account-visual" aria-hidden="true"><span class="brand-mark">mz.</span><span>↔</span><strong>MUSINSA</strong></div>
+        <p class="explanation">이 브라우저에서 평소 사용하는 무신사 계정으로 연결합니다. 무신사 탭이 열리면 로그인 상태를 확인해 주세요.</p>
+        <p class="notice">무신사 계정에 신청에 사용할 배송지가 등록되어 있어야 합니다.</p>
+        <p id="connect-help" class="field-help" role="status"></p>
+        <button id="connect-musinsa" class="button primary full" type="button">무신사 계정 연결 확인 <span aria-hidden="true">↗</span></button>
+      </section>
+      <form id="consent-screen" class="setup-screen" hidden>
+        <ul id="setup-policies" class="policy-links" aria-label="자동 신청 필수 정책"></ul>
+        <p class="explanation">체험단 신청 시 개인정보 수집·이용, 브랜드에 정보 제공, 당첨자 페널티, 당첨 시 청구 없는 0원 주문 생성에 동의합니다.</p>
+        <p class="notice">브랜드 제공 항목에는 이름·연락처·주소와 제세공과금 처리용 주민등록번호가 포함될 수 있습니다. 추가 신분·세금 절차는 자동으로 진행하지 않습니다.</p>
+        <label class="consent-label"><input id="setup-consent" type="checkbox" required><span>위 정책을 확인했고, 필수 동의 항목을 자동으로 체크해 신청하는 데 동의합니다.</span></label>
+        <p class="field-help">다음 화면에서 내 조건을 저장해야 자동 신청이 켜집니다. 이용 중 동의를 끄면 자동 신청도 중지됩니다.</p>
+        <div class="form-actions"><button id="consent-next" class="button primary" type="submit" disabled>동의하고 다음</button></div>
+      </form>
+      <form id="preferences-screen" class="setup-screen" novalidate hidden>
+        <fieldset><legend>나의 사이즈</legend><p class="field-help">쉼표로 구분해 원하는 순서대로 적어 주세요. 예: 28, 30, M</p><div class="fields-grid">
+          <div><label for="pref-shoes">신발</label><input id="pref-shoes" type="text" required maxlength="128" autocomplete="off" placeholder="예: 230, 235"></div>
+          <div><label for="pref-clothing">상의·기타 의류</label><input id="pref-clothing" type="text" required maxlength="128" autocomplete="off" placeholder="예: M, L"></div>
+          <div><label for="pref-women-bottoms">여성·공용 하의</label><input id="pref-women-bottoms" type="text" required maxlength="128" autocomplete="off" placeholder="예: 28, 30, M"></div>
+          <div><label for="pref-men-bottoms">남성 하의</label><input id="pref-men-bottoms" type="text" required maxlength="128" autocomplete="off" placeholder="예: L"></div>
+        </div><label class="checkbox-label"><input id="pref-free" type="checkbox"><span>FREE / ONE SIZE만 있는 의류도 신청</span></label></fieldset>
+        <fieldset><legend>배송 요청사항</legend><label for="pref-delivery" class="sr-only">배송 요청사항</label><select id="pref-delivery" required><option value="" disabled>배송 요청사항을 선택해 주세요</option><option value="문 앞에 놔주세요">문 앞에 놔주세요</option><option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option><option value="택배함에 넣어주세요">택배함에 넣어주세요</option><option value="배송 전 연락 주세요">배송 전 연락 주세요</option></select></fieldset>
+        <fieldset><legend>신청할 카테고리</legend><div class="category-options"><label class="checkbox-label"><input id="pref-category-shoes" type="checkbox"><span>신발</span></label><label class="checkbox-label"><input id="pref-category-clothing" type="checkbox"><span>의류</span></label><label class="checkbox-label"><input id="pref-category-other" type="checkbox"><span>가방·소품·뷰티·기타</span></label></div><p class="field-help">키즈는 항상 제외합니다. 색상은 맨 위의 신청 가능한 옵션을 고릅니다.</p></fieldset>
+        <fieldset><legend>매일 신청할 개수</legend><label for="pref-count" class="sr-only">매일 신청할 개수</label><div class="number-input short"><input id="pref-count" type="number" min="1" max="100" step="1" inputmode="numeric" required><span>개</span></div><p class="field-help">매일 오전 10시, 마감이 가까운 체험단부터 최대 100개까지 신청합니다.</p></fieldset>
+        <p id="pref-start-note" class="notice">저장하면 자동 신청이 켜집니다. 매일 자동 신청하려면 브라우저와 컴퓨터가 켜져 있어야 합니다.</p>
+        <div class="form-actions"><button id="cancel-preferences" class="button secondary" type="button" hidden>취소</button><button id="save-preferences" class="button primary" type="submit">저장하고 자동 신청 켜기</button></div>
+      </form>
+      <p id="setup-error" class="form-error" role="alert"></p>
+    </section>
+  </main>
+  <main id="dashboard" class="dashboard" hidden>
+    <section class="page-heading"><div><span class="eyebrow">내 조건으로 신청하기</span><h1>오늘의 체험을 챙겨요.</h1><p class="description">마감이 가까운 체험단부터, 저장한 조건으로 신청합니다.</p></div><button id="refresh-status" class="button secondary" type="button">↻ <span>새로고침</span></button></section>
+    <section class="overview-grid">
+      <article class="card operation-card"><div class="section-heading"><h2>자동 신청 상태</h2><span id="automation-badge" class="badge">확인 중</span></div><div class="operation-state"><span id="automation-dot" class="state-dot"></span><strong id="automation-title">상태 확인 중</strong></div><p id="automation-description" class="description"></p><p class="field-help">매일 자동 신청하려면 브라우저와 컴퓨터가 켜져 있어야 합니다.</p><button id="toggle-automation" class="button secondary full" type="button">자동 신청 일시 중지</button>
+        <form id="apply-form" class="count-form" novalidate><label for="apply-count">지금 신청할 개수</label><div class="count-controls"><div class="number-input"><input id="apply-count" type="number" min="1" max="100" step="1" inputmode="numeric" value="10" required><span>개</span></div><button id="apply-button" class="button primary" type="submit">지금 바로 10개 신청하기</button></div><p class="field-help">최대 100개까지 신청합니다. 신청할 상품이 적으면 가능한 만큼만 진행합니다.</p></form>
+        <p id="job-message" class="job-message" role="status" aria-live="polite" hidden></p><button id="stop-job" class="button secondary" type="button" hidden>현재 신청 중지</button><p id="apply-error" class="form-error" role="alert"></p>
+      </article>
+      <article class="card schedule-card"><div class="section-heading"><h2>매일 자동 신청</h2><span class="clock" aria-hidden="true">◷</span></div><p class="schedule-time">매일 <strong>오전 10시</strong></p><p id="schedule-description" class="description">한국 시간 · 마감 임박순</p><form id="schedule-form" class="count-form" novalidate><label for="schedule-count">매일 자동으로 신청할 개수</label><div class="count-controls"><div class="number-input"><input id="schedule-count" type="number" min="1" max="100" step="1" inputmode="numeric" value="100" required><span>개</span></div><button id="save-schedule" class="button secondary" type="submit">저장</button></div><p class="field-help">1~100개 중 선택해 주세요.</p><p id="schedule-error" class="form-error" role="alert"></p></form><div class="limits"><span>마감이 가까운 순서로</span><strong>한 번에 최대 100개</strong></div></article>
+    </section>
+    <section class="content-grid">
+      <article class="card conditions-card"><div class="section-heading"><div><h2>나의 신청 조건</h2><p class="description">저장한 순서대로 사이즈를 선택합니다.</p></div><button id="edit-preferences" class="button secondary" type="button">조건 수정</button></div><dl id="conditions-list" class="conditions-list"></dl><p class="notice">선택지가 하나면 그 옵션을, 프리 사이즈라면 FREE를 고릅니다. 설정에 없는 신발 사이즈는 신청하지 않습니다.</p></article>
+      <article class="card consent-card"><div class="section-heading"><div><h2>자동 신청 이용 동의</h2><p class="description">동의를 끄면 자동 신청도 중지됩니다.</p></div><label class="switch"><input id="consent-toggle" type="checkbox" role="switch" aria-label="자동 신청 필수 동의"><span aria-hidden="true"></span></label></div><ul id="dashboard-policies" class="policy-links" aria-label="자동 신청 이용 정책"></ul><p id="consent-summary" class="field-help"></p><div class="connection-row"><strong>무신사 연결</strong><span id="musinsa-connected" class="badge">확인 중</span></div><button id="reconnect-musinsa" class="button secondary full" type="button">무신사 계정 연결 확인</button><p id="session-help" class="field-help"></p></article>
+    </section>
+    <footer><span>무신사지마 · 내 브라우저에서 실행</span><span id="updated-at"></span></footer>
+  </main>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
