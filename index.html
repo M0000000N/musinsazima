@@ -11,9 +11,13 @@
 <body>
   <header class="topbar">
     <a class="brand" href="./" aria-label="무신사지마 홈"><span class="brand-mark">mz.</span><span>무신사지마<small>내 조건으로 챙기는 체험단</small></span></a>
-    <div class="header-meta"><span id="app-version">버전 0.4.0</span><span id="extension-state" class="connection-pill"><span class="dot"></span><span id="extension-state-text">연결 확인 중</span></span></div>
+    <div class="header-meta"><span id="app-version">버전 확인 중</span><span id="extension-state" class="connection-pill"><span class="dot"></span><span id="extension-state-text">연결 확인 중</span></span></div>
   </header>
   <div id="error-banner" class="error-banner" role="alert" hidden></div>
+  <aside id="extension-update" class="update-notice" aria-labelledby="extension-update-title" hidden>
+    <div><strong id="extension-update-title"></strong><span id="extension-update-version"></span><p>새 파일의 압축을 풀어 <strong>처음 설치할 때 선택한 폴더 안의 파일을 덮어쓴 뒤</strong>, 주소창에 <code id="update-extensions-address">chrome://extensions</code>를 입력하고 무신사지마의 새로고침(↻)을 눌러 주세요. 확장을 삭제하지 않으면 저장한 설정이 유지됩니다.</p><p id="extension-update-running" hidden>진행 중인 신청이 끝난 뒤 업데이트해 주세요.</p></div>
+    <a id="extension-update-download" class="button secondary" href="./downloads/Musinsazima-extension-0.4.1.zip" download>새 버전 다운로드 ↓</a>
+  </aside>
   <main id="setup-layout" class="setup-layout">
     <aside class="setup-intro">
       <span class="eyebrow">처음 한 번만 준비해 주세요</span><h1>내 브라우저에서,<br>가볍게 시작해요.</h1>
@@ -33,7 +37,7 @@
       <section id="install-screen" class="setup-screen" hidden>
         <div class="install-visual" aria-hidden="true"><span class="brand-mark">mz.</span><span>+</span><span class="browser-symbol">▣</span></div>
         <p id="browser-help" class="notice">컴퓨터의 Chrome 또는 Edge에서 사용할 수 있습니다.</p>
-        <a id="extension-download" class="button primary full" href="./Musinsazima-Extension-0.4.0.zip" download>확장 프로그램 다운로드 <span aria-hidden="true">↓</span></a>
+        <a id="extension-download" class="button primary full" href="./downloads/Musinsazima-extension-0.4.1.zip" download>확장 프로그램 다운로드 <span aria-hidden="true">↓</span></a>
         <ol class="install-steps">
           <li><span>1</span><div><strong>다운로드한 압축 파일을 풀어 주세요.</strong><p>풀린 폴더는 설치 후에도 그대로 보관해 주세요.</p></div></li>
           <li><span>2</span><div><strong>확장 프로그램 관리 화면을 열어 주세요.</strong><div class="browser-address"><code id="extensions-address">chrome://extensions</code><button id="copy-extensions-address" class="text-button" type="button">주소 복사</button></div><p>복사한 주소를 브라우저 주소창에 붙여 넣으세요.</p></div></li>

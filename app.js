@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const state = { config: { extensionId: 'emlpgnbgpnonhkoonamfmhefboaddpak', version: '0.4.0', extensionDownloadUrl: './Musinsazima-Extension-0.4.0.zip' }, connected: false, connecting: true, status: null, policies: [], policiesLoaded: false, busy: false, refreshing: false, revision: 0, editing: false, preferencesInitialized: false, connectAttempted: false, scheduleDirty: false, updatedAt: null };
+const state = { config: { extensionId: 'emlpgnbgpnonhkoonamfmhefboaddpak', version: '0.4.1', extensionDownloadUrl: './downloads/Musinsazima-extension-0.4.1.zip' }, connected: false, connecting: true, status: null, policies: [], policiesLoaded: false, busy: false, refreshing: false, revision: 0, editing: false, preferencesInitialized: false, connectAttempted: false, scheduleDirty: false, updatedAt: null };
 const setupSteps = ['install', 'connect', 'consent', 'preferences'];
 const dateFormat = new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 let statusTimer;
@@ -24,6 +24,23 @@ function bridge(action, payload = {}) {
 }
 function toast(message) { clearTimeout(toastTimer); $('toast').textContent = message; $('toast').hidden = false; toastTimer = setTimeout(() => { $('toast').hidden = true; }, 4500); }
 const jobActive = () => ['queued', 'running'].includes(state.status?.applicationJob?.status);
+function versionParts(value) { return typeof value === 'string' && /^\d{1,5}(?:\.\d{1,5}){2,3}$/.test(value) ? value.split('.').map(Number) : null; }
+function newerVersion(latest, installed) {
+  const a = versionParts(latest); const b = versionParts(installed); if (!a || !b) return false;
+  for (let index = 0; index < Math.max(a.length, b.length); index++) { if ((a[index] || 0) !== (b[index] || 0)) return (a[index] || 0) > (b[index] || 0); }
+  return false;
+}
+function renderVersion() {
+  const reported = state.status?.version || state.status?.features?.version;
+  const installed = state.connected && versionParts(reported) ? reported : null;
+  $('app-version').textContent = installed ? `설치 ${installed}` : state.connected ? '확장 연결됨' : `최신 ${state.config.version}`;
+  $('app-version').title = `다운로드 가능한 최신 버전: ${state.config.version}`;
+  $('extension-update').hidden = !installed || !newerVersion(state.config.version, installed);
+  $('extension-update-title').textContent = `확장 프로그램 ${state.config.version} 업데이트가 있습니다.`;
+  $('extension-update-version').textContent = installed ? `현재 설치된 버전: ${installed}` : '';
+  $('extension-update-running').hidden = !jobActive();
+}
+function jobMessage(value) { return typeof value === 'string' && value.length <= 300 && !/[\r\n]|(?:chrome-extension|file):\/\/|\bat\s+\S+\s*\(/.test(value) ? value.trim() : ''; }
 function stage() {
   if (state.connecting && !state.status) return 'loading';
   if (!state.connected || !state.status) return 'install';
@@ -35,7 +52,7 @@ function stage() {
 function render() {
   const current = stage();
   document.body.classList.toggle('editing-preferences', state.editing);
-  $('app-version').textContent = `버전 ${state.config.version}`;
+  renderVersion();
   $('extension-state').classList.toggle('connected', state.connected);
   $('extension-state-text').textContent = state.connecting ? '연결 확인 중' : state.connected ? '브라우저 연결됨' : '연결 필요';
   $('setup-layout').hidden = current === 'dashboard';
@@ -104,10 +121,11 @@ function renderDashboard() {
   const job = status.applicationJob; const output = $('job-message'); output.hidden = !job; output.className = 'job-message';
   if (job) {
     const confirmed = Number.isSafeInteger(job.confirmed) && job.confirmed >= 0 ? job.confirmed : 0;
+    const message = jobMessage(job.message);
     if (job.status === 'queued') output.textContent = `${job.target}개 신청을 기다리고 있습니다.`;
-    else if (job.status === 'running') output.textContent = `${job.target}개 중 ${confirmed}개 신청 완료 · 진행 중`;
-    else if (job.status === 'completed') output.textContent = job.exhausted ? `${confirmed}개 신청 완료. 더 이상 신청 가능한 목록이 없습니다.` : `${confirmed}개 신청을 완료했습니다.${confirmed < job.target && job.message ? ` ${job.message}` : ''}`;
-    else if (['stopped', 'failed'].includes(job.status)) { output.textContent = `${confirmed}개 신청 후 중지되었습니다.${job.message ? ` ${job.message}` : ' 무신사 연결을 확인해 주세요.'}`; output.classList.add('warning'); }
+    else if (job.status === 'running') output.textContent = `${job.target}개 중 ${confirmed}개 신청 완료 · 진행 중${message ? `\n${message}` : ''}`;
+    else if (job.status === 'completed') output.textContent = job.exhausted ? `${confirmed}개 신청 완료. 더 이상 신청 가능한 목록이 없습니다.` : `${confirmed}개 신청을 완료했습니다.${confirmed < job.target && message ? ` ${message}` : ''}`;
+    else if (['stopped', 'failed'].includes(job.status)) { output.textContent = `${confirmed}개 신청 후 중지되었습니다.${message ? ` ${message}` : ' 무신사 연결을 확인해 주세요.'}`; output.classList.add('warning'); }
     else output.hidden = true;
   }
   $('updated-at').textContent = state.updatedAt ? `최근 확인 ${dateFormat.format(state.updatedAt)}` : '';
@@ -237,6 +255,7 @@ $('consent-toggle').addEventListener('change', async () => { if (state.busy) ret
 document.addEventListener('visibilitychange', () => { if (!document.hidden && !state.busy) void refreshStatus(); });
 async function init() {
   const edge = /Edg\//.test(navigator.userAgent); $('extensions-address').textContent = edge ? 'edge://extensions' : 'chrome://extensions';
+  $('update-extensions-address').textContent = $('extensions-address').textContent;
   try {
     const response = await fetch(new URL('./config.json', location.href), { cache: 'no-store', signal: AbortSignal.timeout(8000) });
     if (response.ok) {
@@ -247,6 +266,7 @@ async function init() {
     }
   } catch { /* The pinned public extension ID still allows a previously installed version to connect. */ }
   $('extension-download').href = state.config.extensionDownloadUrl;
+  $('extension-update-download').href = state.config.extensionDownloadUrl;
   render(); await refreshStatus();
 }
 void init();
