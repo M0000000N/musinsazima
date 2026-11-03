@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const state = { config: { extensionId: 'emlpgnbgpnonhkoonamfmhefboaddpak', version: '0.4.1', extensionDownloadUrl: './downloads/Musinsazima-extension-0.4.1.zip' }, connected: false, connecting: true, status: null, policies: [], policiesLoaded: false, busy: false, refreshing: false, revision: 0, editing: false, preferencesInitialized: false, connectAttempted: false, scheduleDirty: false, updatedAt: null };
+const state = { config: { extensionId: 'emlpgnbgpnonhkoonamfmhefboaddpak', version: '0.4.2', extensionDownloadUrl: './downloads/Musinsazima-extension-0.4.2.zip' }, connected: false, connecting: true, status: null, policies: [], policiesLoaded: false, busy: false, refreshing: false, revision: 0, editing: false, preferencesInitialized: false, connectAttempted: false, scheduleDirty: false, updatedAt: null };
 const setupSteps = ['install', 'connect', 'consent', 'preferences'];
 const dateFormat = new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 let statusTimer;
