@@ -16,7 +16,7 @@
   <div id="error-banner" class="error-banner" role="alert" hidden></div>
   <aside id="extension-update" class="update-notice" aria-labelledby="extension-update-title" hidden>
     <div><strong id="extension-update-title"></strong><span id="extension-update-version"></span><p>새 파일의 압축을 풀어 <strong>처음 설치할 때 선택한 폴더 안의 파일을 덮어쓴 뒤</strong>, 주소창에 <code id="update-extensions-address">chrome://extensions</code>를 입력하고 무신사지마의 새로고침(↻)을 눌러 주세요. 확장을 삭제하지 않으면 저장한 설정이 유지됩니다.</p><p id="extension-update-running" hidden>진행 중인 신청이 끝난 뒤 업데이트해 주세요.</p></div>
-    <a id="extension-update-download" class="button secondary" href="./downloads/Musinsazima-extension-0.4.2.zip" download>새 버전 다운로드 ↓</a>
+    <a id="extension-update-download" class="button secondary" href="./downloads/Musinsazima-extension-0.4.3.zip" download>새 버전 다운로드 ↓</a>
   </aside>
   <main id="setup-layout" class="setup-layout">
     <aside class="setup-intro">
@@ -37,7 +37,7 @@
       <section id="install-screen" class="setup-screen" hidden>
         <div class="install-visual" aria-hidden="true"><span class="brand-mark">mz.</span><span>+</span><span class="browser-symbol">▣</span></div>
         <p id="browser-help" class="notice">컴퓨터의 Chrome 또는 Edge에서 사용할 수 있습니다.</p>
-        <a id="extension-download" class="button primary full" href="./downloads/Musinsazima-extension-0.4.2.zip" download>확장 프로그램 다운로드 <span aria-hidden="true">↓</span></a>
+        <a id="extension-download" class="button primary full" href="./downloads/Musinsazima-extension-0.4.3.zip" download>확장 프로그램 다운로드 <span aria-hidden="true">↓</span></a>
         <ol class="install-steps">
           <li><span>1</span><div><strong>다운로드한 압축 파일을 풀어 주세요.</strong><p>풀린 폴더는 설치 후에도 그대로 보관해 주세요.</p></div></li>
           <li><span>2</span><div><strong>확장 프로그램 관리 화면을 열어 주세요.</strong><div class="browser-address"><code id="extensions-address">chrome://extensions</code><button id="copy-extensions-address" class="text-button" type="button">주소 복사</button></div><p>복사한 주소를 브라우저 주소창에 붙여 넣으세요.</p></div></li>
@@ -80,7 +80,7 @@
   <main id="dashboard" class="dashboard" hidden>
     <section class="page-heading"><div><span class="eyebrow">내 조건으로 신청하기</span><h1>오늘의 체험을 챙겨요.</h1><p class="description">마감이 가까운 체험단부터, 저장한 조건으로 신청합니다.</p></div><button id="refresh-status" class="button secondary" type="button">↻ <span>새로고침</span></button></section>
     <section class="overview-grid">
-      <article class="card operation-card"><div class="section-heading"><h2>자동 신청 상태</h2><span id="automation-badge" class="badge">확인 중</span></div><div class="operation-state"><span id="automation-dot" class="state-dot"></span><strong id="automation-title">상태 확인 중</strong></div><p id="automation-description" class="description"></p><p class="field-help">매일 자동 신청하려면 브라우저와 컴퓨터가 켜져 있어야 합니다.</p><button id="toggle-automation" class="button secondary full" type="button">자동 신청 일시 중지</button>
+      <article class="card operation-card"><div class="section-heading"><h2>자동 신청 상태</h2><span id="automation-badge" class="badge">확인 중</span></div><div class="operation-state"><span id="automation-dot" class="state-dot"></span><strong id="automation-title">상태 확인 중</strong></div><p id="automation-description" class="description"></p><p class="field-help">신청은 뒤쪽 작업 탭에서 진행됩니다. 현재 화면은 그대로 사용하세요. 컴퓨터와 브라우저는 켜져 있어야 합니다.</p><button id="toggle-automation" class="button secondary full" type="button">자동 신청 일시 중지</button>
         <form id="apply-form" class="count-form" novalidate><label for="apply-count">지금 신청할 개수</label><div class="count-controls"><div class="number-input"><input id="apply-count" type="number" min="1" max="100" step="1" inputmode="numeric" value="10" required><span>개</span></div><button id="apply-button" class="button primary" type="submit">지금 바로 10개 신청하기</button></div><p class="field-help">최대 100개까지 신청합니다. 신청할 상품이 적으면 가능한 만큼만 진행합니다.</p></form>
         <p id="job-message" class="job-message" role="status" aria-live="polite" hidden></p><button id="stop-job" class="button secondary" type="button" hidden>현재 신청 중지</button><p id="apply-error" class="form-error" role="alert"></p>
       </article>
